@@ -1,9 +1,17 @@
 import React, { FC } from 'react'
+import { Layout, Row } from 'antd'
+import { Header } from './components/Header/Header'
+import { CharactersList } from './components/CharactersList/CharactersList'
 
 const App: FC = () => (
-  <div className="app">
-    <h1>Hello world</h1>
-  </div>
+  <Layout>
+    <Header />
+    <Layout>
+      <Row>
+        <CharactersList />
+      </Row>
+    </Layout>
+  </Layout>
 )
 
 export default App;
