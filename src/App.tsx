@@ -1,17 +1,25 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Layout, Row } from 'antd'
 import { Header } from './components/Header/Header'
 import { CharactersList } from './components/CharactersList/CharactersList'
+import { useActions } from './hooks/useActions'
 
-const App: FC = () => (
-  <Layout>
-    <Header />
+const App: FC = () => {
+  const { getCharacters } = useActions()
+  useEffect(() => {
+    getCharacters()
+  }, [])
+
+  return (
     <Layout>
-      <Row>
-        <CharactersList />
-      </Row>
+      <Header />
+      <Layout>
+        <Row>
+          <CharactersList />
+        </Row>
+      </Layout>
     </Layout>
-  </Layout>
-)
+  )
+}
 
 export default App;
