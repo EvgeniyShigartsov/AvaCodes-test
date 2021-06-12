@@ -30,6 +30,9 @@
                 "tsx": "never"
             }
         ],
+        "no-plusplus":"off",
+        "no-continue": "off",
+        "arrow-body-style":"off",
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": ["error"],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],

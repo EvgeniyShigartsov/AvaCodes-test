@@ -1,26 +1,55 @@
+/* eslint-disable camelcase */
 import { ICharacter } from '../../globalTypes/globalTypes';
 
 export interface ICharactersState {
   characters: ICharacter[],
-  isLoading: boolean
+  isLoading: boolean,
+  error: string
 }
+
+export interface IResponseCharacter {
+  name: string,
+  birth_year: string,
+  species: string[],
+  films: string[],
+  starships: string[],
+}
+
 export interface IPeopleResponseData {
   count: number
   next: string | null
   perevious: string | null
-  results: ICharacter[]
+  results: IResponseCharacter[]
 }
-export interface IPeopleResponse {
-  status: number
-  data: IPeopleResponseData
+export interface ISpecieResponseData {
+  name: string
+}
+export interface IMovieResponseData {
+  title: string
+}
+export interface IStarshipsResponseData {
+  name: string
 }
 
 export enum CharactersActionTypes {
-  GET_CHARACTERS = 'GET_CHARACTERS'
+  GET_CHARACTERS_START = 'GET_CHARACTERS_START',
+  GET_CHARACTERS_SUCCESS = 'GET_CHARACTERS_SUCCESS',
+  GET_CHARACTERS_ERROR = 'GET_CHARACTERS_ERROR',
 }
 
 interface IGetCharactersAction {
-  type: CharactersActionTypes.GET_CHARACTERS,
+  type: CharactersActionTypes.GET_CHARACTERS_START,
+}
+interface IGetCharactersSuccessAction {
+  type: CharactersActionTypes.GET_CHARACTERS_SUCCESS,
+  payload: ICharacter[]
+}
+interface IGetCharactersErrorAction {
+  type: CharactersActionTypes.GET_CHARACTERS_ERROR,
+  payload: string
 }
 
-export type CharactersAction = IGetCharactersAction
+export type CharactersAction =
+  IGetCharactersAction
+  | IGetCharactersSuccessAction
+  | IGetCharactersErrorAction
