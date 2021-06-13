@@ -33,7 +33,7 @@ export enum CharactersActionTypes {
   GET_CHARACTERS_START = 'GET_CHARACTERS_START',
   GET_CHARACTERS_SUCCESS = 'GET_CHARACTERS_SUCCESS',
   GET_CHARACTERS_ERROR = 'GET_CHARACTERS_ERROR',
-  FILTER_CHARACTERS = 'FILTER_CHARACTERS',
+  SET_FILTERED_CHARACTERS = 'SET_FILTERED_CHARACTERS',
   SET_FILTER_OPTIONS = 'SET_FILTER_OPTIONS',
 }
 
@@ -49,8 +49,8 @@ interface IGetCharactersErrorAction {
   payload: string
 }
 interface IFilterCharactersAction {
-  type: CharactersActionTypes.FILTER_CHARACTERS,
-  payload: IFilterParams
+  type: CharactersActionTypes.SET_FILTERED_CHARACTERS,
+  payload: ICharacter[]
 }
 interface ISetFilterOptions {
   type: CharactersActionTypes.SET_FILTER_OPTIONS,

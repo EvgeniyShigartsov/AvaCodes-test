@@ -8,9 +8,9 @@ const initialState: ICharactersState = {
   isLoading: false,
   error: null,
   filterParams: {
-    movie: '',
-    species: '',
-    birth_year: '',
+    movie: null,
+    species: null,
+    birth_year: null,
   },
 }
 export const MODULE_NAME = 'characters'
@@ -40,6 +40,11 @@ export const reducer = (state = initialState, action: CharactersAction): ICharac
         ...state,
         allMovies: action.payload.allMovies,
         allSpecies: action.payload.allSpecies,
+      }
+    case types.SET_FILTERED_CHARACTERS:
+      return {
+        ...state,
+        filteredCharacters: action.payload,
       }
     default:
       return state

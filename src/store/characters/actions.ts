@@ -2,6 +2,7 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
 import { Dispatch } from 'redux'
+import { type } from 'os';
 import {
   IPeopleResponseData,
   IResponseCharacter,
@@ -26,6 +27,8 @@ const getPeoplesPageData = async (url: string): Promise<IPeopleResponseData> => 
     .catch((err) => err.response)
 }
 const getCharacterSpecies = async (specieURL: string): Promise<string> => {
+  if (!specieURL) return 'Human'
+
   return axios.get<ISpecieResponseData>(specieURL)
     .then((response) => response.data.name)
     .catch(() => '')
@@ -71,8 +74,6 @@ const getCharacters = async (characters: IResponseCharacter[]): Promise<ICharact
 
   for (let i = 0; i < characters.length; i++) {
     const current = characters[i]
-
-    if (!current.species.length) continue
     const [specieURL] = current.species
 
     const character = {} as ICharacter
@@ -152,9 +153,21 @@ export const setFilterOptions = (characters: ICharacter[]) => (dispatch: Dispatc
     },
   )
 }
-// export const filterCharacters = (payload: IFilterParams) => (
-//   dispatch: Dispatch<CharactersAction>,
-//   getState: () => RootState,
-// ): void => {
-//   const { characters: { characters } } = getState()
-// }
+export const filterCharacters = (params: IFilterParams) => (
+  dispatch: Dispatch<CharactersAction>,
+  getState: () => RootState,
+): void => {
+  const { characters: { characters } } = getState()
+  const isAllMoviesSelected = params.movie === null
+  const isAllSpeciesSelected = params.species === null;
+
+  if (isAllMoviesSelected && isAllSpeciesSelected) {
+    dispatch({ type: types.SET_FILTERED_CHARACTERS, payload: characters })
+    return
+  }
+  const filtered = characters.filter((character) => {
+    return character.films.some((f) => f.title === params.movie)
+  })
+
+  dispatch({ type: types.SET_FILTERED_CHARACTERS, payload: filtered })
+}

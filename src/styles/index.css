@@ -16,6 +16,7 @@ ul {
 .ant-layout-content {
   color: #fff;
   background-color: whitesmoke;
+  margin-bottom: 100px;
 }
 
 .character-wrapper {

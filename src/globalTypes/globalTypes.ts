@@ -15,9 +15,9 @@ export interface ICharacter {
   starships: IStarship[],
 }
 export interface IFilterParams {
-  movie: string,
-  species: string,
-  birth_year: string
+  movie: string | null,
+  species: string | null,
+  birth_year: string | null
 }
 
 export interface IFilterOptions{
