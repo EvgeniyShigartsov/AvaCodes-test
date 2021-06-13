@@ -1,7 +1,5 @@
-/* eslint-disable max-len */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-await-in-loop */
-/* eslint-disable no-console */
 import axios from 'axios';
 import { Dispatch } from 'redux'
 import {
@@ -96,24 +94,28 @@ export const setFullCharactersData = () => async (dispatch: Dispatch<CharactersA
     dispatch({ type: types.GET_CHARACTERS_SUCCESS, payload: charactersLS })
     return
   }
+  dispatch({ type: types.GET_CHARACTERS_START })
 
   const characters: ICharacter[] = []
 
-  let nextPageUrl: string | null = `${DOMAIN}/people/?page=1`
+  let nextPageUrl: string | null = `${DOMAIN}/people`
 
   while (nextPageUrl !== null) {
     try {
       const pageData: IPeopleResponseData = await getPeoplesPageData(nextPageUrl)
       nextPageUrl = pageData.next
-
       const pageCharacters = await getCharacters(pageData.results)
       characters.push(...pageCharacters)
     } catch (e) {
-      console.log(e)
       nextPageUrl = null
+      dispatch(
+        {
+          type: types.GET_CHARACTERS_ERROR,
+          payload: 'Loading data has been failed. Probably SWAPI server has been shut down.',
+        },
+      )
     }
   }
-  console.log(characters)
 
   dispatch({ type: types.GET_CHARACTERS_SUCCESS, payload: characters })
 }

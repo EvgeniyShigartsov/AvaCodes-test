@@ -47,3 +47,6 @@ ul {
 .character-data-title {
   min-width: 80px;
 }
+.loader-box {
+  height: 80vh;
+}
