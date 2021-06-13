@@ -1,10 +1,15 @@
-/* eslint-disable camelcase */
 import { ICharacter } from '../../globalTypes/globalTypes';
 
 export interface ICharactersState {
   characters: ICharacter[],
+  filteredCharacters: ICharacter[],
   isLoading: boolean,
-  error: string
+  error: string | null,
+  filterParams: {
+    movie: string,
+    species: string,
+    birth_year: string
+  }
 }
 
 export interface IResponseCharacter {

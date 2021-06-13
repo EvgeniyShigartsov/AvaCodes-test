@@ -18,13 +18,11 @@ const getPeoplesPageData = async (url: string): Promise<IPeopleResponseData> => 
     .then((response) => response.data)
     .catch((err) => err.response)
 }
-
 const getCharacterSpecies = async (specieURL: string): Promise<string> => {
   return axios.get<ISpecieResponseData>(specieURL)
     .then((response) => response.data.name)
     .catch(() => '')
 }
-
 const getCharactersMovies = async (movieURLs: string[]): Promise<IFilm[]> => {
   const movies: IFilm[] = []
 
@@ -84,7 +82,6 @@ const getCharacters = async (characters: IResponseCharacter[]): Promise<ICharact
 
     result.push(character)
   }
-
   return result
 }
 

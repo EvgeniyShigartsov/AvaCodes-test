@@ -3,15 +3,14 @@ import { Layout, Col } from 'antd'
 import { CharacterItem } from './CharacterItem/CharacterItem'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { Loader } from '../Loader/Loader'
+import { filteredCharactersSelector, isLoadingSelector } from '../../store/characters/selectors'
 
 const { Content } = Layout
 export const CharactersList: FC = () => {
-  const characters = useTypedSelector((state) => state.characters.characters)
-  const isLoading = useTypedSelector((state) => state.characters.isLoading)
+  const characters = useTypedSelector(filteredCharactersSelector)
+  const isLoading = useTypedSelector(isLoadingSelector)
 
   if (isLoading) return <Loader />
-
-  console.log(isLoading)
   return (
     <Content>
       <Col span={6} push={2}>

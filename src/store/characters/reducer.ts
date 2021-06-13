@@ -2,8 +2,14 @@ import { ICharactersState, CharactersAction, CharactersActionTypes as types } fr
 
 const initialState: ICharactersState = {
   characters: [],
+  filteredCharacters: [],
   isLoading: false,
-  error: '',
+  error: null,
+  filterParams: {
+    movie: '',
+    species: '',
+    birth_year: '',
+  },
 }
 export const MODULE_NAME = 'characters'
 
@@ -19,6 +25,7 @@ export const reducer = (state = initialState, action: CharactersAction): ICharac
         ...state,
         isLoading: false,
         characters: action.payload,
+        filteredCharacters: action.payload,
       }
     case types.GET_CHARACTERS_ERROR:
       return {
