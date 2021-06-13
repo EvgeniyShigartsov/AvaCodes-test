@@ -46,6 +46,11 @@ export const reducer = (state = initialState, action: CharactersAction): ICharac
         ...state,
         filteredCharacters: action.payload,
       }
+    case types.UPDATE_FILTER_PARAMS:
+      return {
+        ...state,
+        filterParams: action.payload,
+      }
     default:
       return state
   }

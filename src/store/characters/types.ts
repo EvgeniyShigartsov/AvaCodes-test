@@ -35,6 +35,7 @@ export enum CharactersActionTypes {
   GET_CHARACTERS_ERROR = 'GET_CHARACTERS_ERROR',
   SET_FILTERED_CHARACTERS = 'SET_FILTERED_CHARACTERS',
   SET_FILTER_OPTIONS = 'SET_FILTER_OPTIONS',
+  UPDATE_FILTER_PARAMS = 'UPDATE_FILTER_PARAMS',
 }
 
 interface IGetCharactersAction {
@@ -52,12 +53,16 @@ interface IFilterCharactersAction {
   type: CharactersActionTypes.SET_FILTERED_CHARACTERS,
   payload: ICharacter[]
 }
-interface ISetFilterOptions {
+interface ISetFilterOptionsAction {
   type: CharactersActionTypes.SET_FILTER_OPTIONS,
   payload:{
     allMovies: string[],
     allSpecies: string[],
   }
+}
+interface IUpdateFilterParamsAction {
+  type: CharactersActionTypes.UPDATE_FILTER_PARAMS,
+  payload: IFilterParams
 }
 
 export type CharactersAction =
@@ -65,4 +70,7 @@ export type CharactersAction =
   | IGetCharactersSuccessAction
   | IGetCharactersErrorAction
   | IFilterCharactersAction
-  | ISetFilterOptions
+  | ISetFilterOptionsAction
+  | IUpdateFilterParamsAction
+
+export type FilterOptionType = 'movie' | 'species' | 'birth_year'

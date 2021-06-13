@@ -2,16 +2,31 @@ import React, { FC } from 'react'
 import { Select, Col } from 'antd'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { allSpeciesSelector } from '../../../../store/characters/selectors'
+import { useActions } from '../../../../hooks/useActions'
+// import { filterOptionsKeys } from '../../../../utils/contants'
 
 const { Option } = Select
 
 export const SpeciesList: FC = () => {
-  const species = useTypedSelector(allSpeciesSelector)
+  const speciesList = useTypedSelector(allSpeciesSelector)
+  const { filterCharacters } = useActions()
+
+  const onSpeciesChange = (species: string) => {
+    const value = species === 'allSpecies' ? null : species
+
+    filterCharacters(['species', value])
+  }
+
   return (
     <Col span={6}>
-      <Select defaultValue="allSpecies" className="select-dropdown" size="large" onChange={() => null}>
+      <Select
+        defaultValue="allSpecies"
+        className="select-dropdown"
+        size="large"
+        onChange={onSpeciesChange}
+      >
         <Option value="allSpecies">All Species</Option>
-        {species.map((specie) => <Option key={specie} value={specie}>{specie}</Option>)}
+        {speciesList.map((specie) => <Option key={specie} value={specie}>{specie}</Option>)}
       </Select>
     </Col>
   )

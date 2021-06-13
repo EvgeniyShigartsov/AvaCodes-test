@@ -20,7 +20,7 @@ export interface IFilterParams {
   birth_year: string | null
 }
 
-export interface IFilterOptions{
+export interface IFilterOptions {
   movies: string[],
   species: string[],
   birth_year?: string[]

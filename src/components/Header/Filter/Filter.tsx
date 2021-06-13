@@ -8,10 +8,10 @@ import { useActions } from '../../../hooks/useActions'
 
 export const Filter: FC = () => {
   const characters = useTypedSelector(allCharactersSelector)
-  const { setFilterOptions } = useActions()
+  const { setFilterData } = useActions()
 
   useEffect(() => {
-    setFilterOptions(characters)
+    setFilterData(characters)
   }, [characters])
   return (
     <Col span={18}>

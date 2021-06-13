@@ -9,12 +9,12 @@ import {
   ISpecieResponseData,
   CharactersAction,
   CharactersActionTypes as types,
+  FilterOptionType,
 } from './types'
 import {
   ICharacter,
   IFilm,
   IStarship,
-  IFilterParams,
   IFilterOptions,
 } from '../../globalTypes/globalTypes'
 import { DOMAIN, charactersLSKey } from '../../utils/contants'
@@ -131,10 +131,10 @@ export const setFullCharactersData = () => async (dispatch: Dispatch<CharactersA
   localStorage.setItem(charactersLSKey, JSON.stringify(characters))
 }
 
-export const setFilterOptions = (characters: ICharacter[]) => (dispatch: Dispatch<CharactersAction>): void => {
-  const options = characters.reduce<IFilterOptions>((acc, current) => {
-    acc.movies.push(...current.films.map((f) => f.title))
-    acc.species.push(current.species)
+export const setFilterData = (characters: ICharacter[]) => (dispatch: Dispatch<CharactersAction>): void => {
+  const options = characters.reduce<IFilterOptions>((acc, character) => {
+    acc.movies.push(...character.films.map((f) => f.title))
+    acc.species.push(character.species)
     return acc
   }, {
     movies: [],
@@ -153,21 +153,31 @@ export const setFilterOptions = (characters: ICharacter[]) => (dispatch: Dispatc
     },
   )
 }
-export const filterCharacters = (params: IFilterParams) => (
+
+export const filterCharacters = (incomingParam: [FilterOptionType, string | null]) => (
   dispatch: Dispatch<CharactersAction>,
   getState: () => RootState,
 ): void => {
-  const { characters: { characters } } = getState()
-  const isAllMoviesSelected = params.movie === null
-  const isAllSpeciesSelected = params.species === null;
+  const { characters: { characters, filterParams } } = getState()
+  const [paramToUpdate, value] = incomingParam
 
-  if (isAllMoviesSelected && isAllSpeciesSelected) {
-    dispatch({ type: types.SET_FILTERED_CHARACTERS, payload: characters })
-    return
+  const updatedParams = {
+    ...filterParams,
+    [paramToUpdate]: value,
   }
-  const filtered = characters.filter((character) => {
-    return character.films.some((f) => f.title === params.movie)
-  })
 
-  dispatch({ type: types.SET_FILTERED_CHARACTERS, payload: filtered })
+  console.log(filterParams)
+  console.log(updatedParams)
+  // const filtered = characters
+  //   .filter((char) => {
+  //     if (movie === null) return true
+  //     return char.films.some((f) => f.title === movie)
+  //   })
+  //   .filter((char) => {
+  //     if (species === null) return true
+  //     return char.species === species
+  //   })
+
+  // dispatch({ type: types.SET_FILTERED_CHARACTERS, payload: filtered })
+  dispatch({ type: types.UPDATE_FILTER_PARAMS, payload: updatedParams })
 }
