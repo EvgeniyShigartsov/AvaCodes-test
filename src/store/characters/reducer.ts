@@ -15,8 +15,8 @@ const initialState: ICharactersState = {
     movie: null,
     species: null,
     birthYearsRange: {
-      BBYmin: 0,
-      ABYmax: 0,
+      min: 0,
+      max: 0,
     },
   },
 }

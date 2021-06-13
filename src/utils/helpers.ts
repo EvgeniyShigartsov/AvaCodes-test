@@ -22,13 +22,13 @@ export const getBirthYearsRange = (births: string[]): {BBYmin: number, ABYmax: n
     const isBirthDateBBY = birth.toUpperCase().endsWith('BBY')
     const isBirthDateABY = birth.toUpperCase().endsWith('ABY')
 
-    const date = parseFloat(birth)
-    if (isBirthDateBBY) BBYDates.push(date)
-    else if (isBirthDateABY) ABYDAtes.push(date)
+    const year = parseFloat(birth)
+    if (isBirthDateBBY) BBYDates.push(year)
+    else if (isBirthDateABY) ABYDAtes.push(year)
   })
 
   const temp = Math.max(...BBYDates)
-  const BBYmin = temp - (temp * 2)
+  const BBYmin = temp - (temp * 2) // 5 - 5 * 2 = -5 ))
   const ABYmax = Math.max(...ABYDAtes)
 
   return { BBYmin, ABYmax }

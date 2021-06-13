@@ -14,6 +14,7 @@ export const CharacterItem: FC<CharacterItemProps> = ({ character, itemNo }) => 
     species,
     films,
     starships,
+    birthYear,
   } = character
 
   return (
@@ -33,6 +34,11 @@ export const CharacterItem: FC<CharacterItemProps> = ({ character, itemNo }) => 
           Species:
           {' '}
           {species}
+        </div>
+        <div className="character-spesies">
+          Birth year:
+          {' '}
+          {birthYear}
         </div>
         <div className="character-data">
           <span className="character-data-title">Movies:</span>

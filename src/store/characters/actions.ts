@@ -82,7 +82,7 @@ const getCharacters = async (characters: IResponseCharacter[]): Promise<ICharact
 
     character.name = current.name
     character.url = current.url
-    character.birthYear = current.birth_year !== 'unknown' ? current.birth_year : `${Math.floor(Math.random() * 30)}ABY`
+    character.birthYear = current.birth_year !== 'unknown' ? current.birth_year : `${Math.floor(Math.random() * 51)}ABY`
     character.species = specie
     character.films = movies
     character.starships = starships
@@ -145,7 +145,6 @@ export const setFilterData = (characters: ICharacter[]) => (dispatch: Dispatch<C
   const uniqeSpecies = Array.from(new Set(options.species))
   const birthYearsRangeStatic = getBirthYearsRange(options.birth_year)
 
-  console.log(birthYearsRangeStatic)
   dispatch(
     {
       type: types.SET_FILTER_OPTIONS,
@@ -156,9 +155,20 @@ export const setFilterData = (characters: ICharacter[]) => (dispatch: Dispatch<C
       },
     },
   )
+  dispatch({
+    type: types.UPDATE_FILTER_PARAMS,
+    payload: {
+      movie: null,
+      species: null,
+      birthYearsRange: {
+        min: birthYearsRangeStatic.BBYmin,
+        max: birthYearsRangeStatic.ABYmax,
+      },
+    },
+  })
 }
 
-export const filterCharacters = (incomingParam: [FilterOptionType, string | null]) => (
+export const filterCharacters = (incomingParam: [FilterOptionType, string | null | { min: number, max: number}]) => (
   dispatch: Dispatch<CharactersAction>,
   getState: () => RootState,
 ): void => {
@@ -170,7 +180,11 @@ export const filterCharacters = (incomingParam: [FilterOptionType, string | null
     [paramToUpdate]: value,
   }
 
-  const { movie, species } = updatedParams
+  const { movie, species, birthYearsRange: { min, max } } = updatedParams
+
+  const isBBYDateSelected = min < 0
+  const formattedMin = Math.abs(min)
+  // для корректной работы range слайдера пришлось BBY даты переводить в отрицательные числа
 
   const filtered = characters
     .filter((char) => {
@@ -180,6 +194,31 @@ export const filterCharacters = (incomingParam: [FilterOptionType, string | null
     .filter((char) => {
       if (species === null) return true
       return char.species === species
+    })
+    .filter((char) => {
+      // До того как я начал писать этот блок кода мне нравились звездные войны)).
+      // Думаю можно было написать эту часть на порядок проще, но нужно переосмыслить полностью подход.
+
+      const isBirthBBY = char.birthYear.toUpperCase().endsWith('BBY')
+      const isBirthABY = char.birthYear.toUpperCase().endsWith('ABY')
+      const charBirthYear = parseFloat(char.birthYear)
+
+      if (isBBYDateSelected) {
+        if (isBirthBBY) {
+          if (max <= 0) {
+            return charBirthYear <= formattedMin && charBirthYear >= Math.abs(max)
+          }
+          return charBirthYear <= formattedMin
+        }
+        if (isBirthABY && max < 0) return false
+        return charBirthYear <= max
+      }
+      if (isBirthBBY) return false
+      if (isBirthABY) {
+        if (max < 0) return false
+        return charBirthYear >= min && charBirthYear <= max
+      }
+      return charBirthYear >= formattedMin && charBirthYear <= max
     })
 
   dispatch({ type: types.SET_FILTERED_CHARACTERS, payload: filtered })

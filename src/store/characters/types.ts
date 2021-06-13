@@ -81,4 +81,4 @@ export type CharactersAction =
   | ISetFilterOptionsAction
   | IUpdateFilterParamsAction
 
-export type FilterOptionType = 'movie' | 'species' | 'birth_year'
+export type FilterOptionType = 'movie' | 'species' | 'birthYearsRange'

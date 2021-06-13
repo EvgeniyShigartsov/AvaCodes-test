@@ -18,8 +18,8 @@ export interface IFilterParams {
   movie: string | null,
   species: string | null,
   birthYearsRange: {
-    BBYmin: number,
-    ABYmax: number,
+    min: number,
+    max: number,
   }
 }
 
