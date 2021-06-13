@@ -1,15 +1,13 @@
-import { ICharacter } from '../../globalTypes/globalTypes';
+import { ICharacter, IFilterParams } from '../../globalTypes/globalTypes';
 
 export interface ICharactersState {
   characters: ICharacter[],
   filteredCharacters: ICharacter[],
+  allMovies: string[],
+  allSpecies: string[],
   isLoading: boolean,
   error: string | null,
-  filterParams: {
-    movie: string,
-    species: string,
-    birth_year: string
-  }
+  filterParams: IFilterParams
 }
 
 export interface IResponseCharacter {
@@ -35,6 +33,8 @@ export enum CharactersActionTypes {
   GET_CHARACTERS_START = 'GET_CHARACTERS_START',
   GET_CHARACTERS_SUCCESS = 'GET_CHARACTERS_SUCCESS',
   GET_CHARACTERS_ERROR = 'GET_CHARACTERS_ERROR',
+  FILTER_CHARACTERS = 'FILTER_CHARACTERS',
+  SET_FILTER_OPTIONS = 'SET_FILTER_OPTIONS',
 }
 
 interface IGetCharactersAction {
@@ -48,8 +48,21 @@ interface IGetCharactersErrorAction {
   type: CharactersActionTypes.GET_CHARACTERS_ERROR,
   payload: string
 }
+interface IFilterCharactersAction {
+  type: CharactersActionTypes.FILTER_CHARACTERS,
+  payload: IFilterParams
+}
+interface ISetFilterOptions {
+  type: CharactersActionTypes.SET_FILTER_OPTIONS,
+  payload:{
+    allMovies: string[],
+    allSpecies: string[],
+  }
+}
 
 export type CharactersAction =
   IGetCharactersAction
   | IGetCharactersSuccessAction
   | IGetCharactersErrorAction
+  | IFilterCharactersAction
+  | ISetFilterOptions

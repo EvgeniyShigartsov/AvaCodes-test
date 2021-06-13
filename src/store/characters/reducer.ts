@@ -3,6 +3,8 @@ import { ICharactersState, CharactersAction, CharactersActionTypes as types } fr
 const initialState: ICharactersState = {
   characters: [],
   filteredCharacters: [],
+  allMovies: [],
+  allSpecies: [],
   isLoading: false,
   error: null,
   filterParams: {
@@ -32,6 +34,12 @@ export const reducer = (state = initialState, action: CharactersAction): ICharac
         ...state,
         isLoading: false,
         error: action.payload,
+      }
+    case types.SET_FILTER_OPTIONS:
+      return {
+        ...state,
+        allMovies: action.payload.allMovies,
+        allSpecies: action.payload.allSpecies,
       }
     default:
       return state

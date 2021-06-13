@@ -50,3 +50,6 @@ ul {
 .loader-box {
   height: 80vh;
 }
+.select-dropdown {
+  width: 250px;
+}

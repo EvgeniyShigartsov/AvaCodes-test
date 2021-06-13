@@ -6,7 +6,6 @@ export interface IStarship {
   name: string,
   url: string,
 }
-
 export interface ICharacter {
   name: string,
   species: string,
@@ -14,4 +13,15 @@ export interface ICharacter {
   url: string,
   films: IFilm[],
   starships: IStarship[],
+}
+export interface IFilterParams {
+  movie: string,
+  species: string,
+  birth_year: string
+}
+
+export interface IFilterOptions{
+  movies: string[],
+  species: string[],
+  birth_year?: string[]
 }

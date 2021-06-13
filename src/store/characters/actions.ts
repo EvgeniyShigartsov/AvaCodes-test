@@ -9,9 +9,16 @@ import {
   CharactersAction,
   CharactersActionTypes as types,
 } from './types'
-import { DOMAIN } from '../../utils/contants'
-import { ICharacter, IFilm, IStarship } from '../../globalTypes/globalTypes'
+import {
+  ICharacter,
+  IFilm,
+  IStarship,
+  IFilterParams,
+  IFilterOptions,
+} from '../../globalTypes/globalTypes'
+import { DOMAIN, charactersLSKey } from '../../utils/contants'
 import { getCharactersFromLS } from '../../utils/helpers'
+import { RootState } from '../index'
 
 const getPeoplesPageData = async (url: string): Promise<IPeopleResponseData> => {
   return axios.get<IPeopleResponseData>(url)
@@ -36,7 +43,7 @@ const getCharactersMovies = async (movieURLs: string[]): Promise<IFilm[]> => {
           episode_id: response.data.episode_id,
         },
       ))
-      .catch((err) => console.log(err.response))
+      .catch(() => [])
   }
   return movies
 }
@@ -54,7 +61,7 @@ const getCharactersStarships = async (starshipURLs: string[]): Promise<IStarship
           url: response.data.url,
         },
       ))
-      .catch((err) => console.log(err.response))
+      .catch(() => [])
   }
   return starships
 }
@@ -97,10 +104,14 @@ export const setFullCharactersData = () => async (dispatch: Dispatch<CharactersA
 
   let nextPageUrl: string | null = `${DOMAIN}/people`
 
+  // Поскольку SWAPI на /people отдает только 10 персонажей, и не поддерживает запросы типа /people?perPage=100 ,
+  // Пришлось выдумывать вот такие костыли.
+
   while (nextPageUrl !== null) {
     try {
       const pageData: IPeopleResponseData = await getPeoplesPageData(nextPageUrl)
       nextPageUrl = pageData.next
+
       const pageCharacters = await getCharacters(pageData.results)
       characters.push(...pageCharacters)
     } catch (e) {
@@ -111,8 +122,39 @@ export const setFullCharactersData = () => async (dispatch: Dispatch<CharactersA
           payload: 'Loading data has been failed. Probably SWAPI server has been shut down.',
         },
       )
+      return
     }
   }
 
   dispatch({ type: types.GET_CHARACTERS_SUCCESS, payload: characters })
+  localStorage.setItem(charactersLSKey, JSON.stringify(characters))
 }
+
+export const setFilterOptions = (characters: ICharacter[]) => (dispatch: Dispatch<CharactersAction>): void => {
+  const options = characters.reduce<IFilterOptions>((acc, current) => {
+    acc.movies.push(...current.films.map((f) => f.title))
+    acc.species.push(current.species)
+    return acc
+  }, {
+    movies: [],
+    species: [],
+  })
+  const uniqeMovies = Array.from(new Set(options.movies))
+  const uniqeSpecies = Array.from(new Set(options.species))
+
+  dispatch(
+    {
+      type: types.SET_FILTER_OPTIONS,
+      payload: {
+        allMovies: uniqeMovies,
+        allSpecies: uniqeSpecies,
+      },
+    },
+  )
+}
+// export const filterCharacters = (payload: IFilterParams) => (
+//   dispatch: Dispatch<CharactersAction>,
+//   getState: () => RootState,
+// ): void => {
+//   const { characters: { characters } } = getState()
+// }
