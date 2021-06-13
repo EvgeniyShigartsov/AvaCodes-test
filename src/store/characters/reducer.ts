@@ -5,12 +5,19 @@ const initialState: ICharactersState = {
   filteredCharacters: [],
   allMovies: [],
   allSpecies: [],
+  birthYearsRangeStatic: {
+    BBYmin: 0,
+    ABYmax: 0,
+  },
   isLoading: false,
   error: null,
   filterParams: {
     movie: null,
     species: null,
-    birth_year: null,
+    birthYearsRange: {
+      BBYmin: 0,
+      ABYmax: 0,
+    },
   },
 }
 export const MODULE_NAME = 'characters'
@@ -40,6 +47,7 @@ export const reducer = (state = initialState, action: CharactersAction): ICharac
         ...state,
         allMovies: action.payload.allMovies,
         allSpecies: action.payload.allSpecies,
+        birthYearsRangeStatic: action.payload.birthYearsRangeStatic,
       }
     case types.SET_FILTERED_CHARACTERS:
       return {

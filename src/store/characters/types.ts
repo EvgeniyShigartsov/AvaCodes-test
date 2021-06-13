@@ -5,6 +5,10 @@ export interface ICharactersState {
   filteredCharacters: ICharacter[],
   allMovies: string[],
   allSpecies: string[],
+  birthYearsRangeStatic: {
+    BBYmin: number,
+    ABYmax: number
+  }
   isLoading: boolean,
   error: string | null,
   filterParams: IFilterParams
@@ -58,6 +62,10 @@ interface ISetFilterOptionsAction {
   payload:{
     allMovies: string[],
     allSpecies: string[],
+    birthYearsRangeStatic: {
+      BBYmin: number,
+      ABYmax: number,
+    }
   }
 }
 interface IUpdateFilterParamsAction {

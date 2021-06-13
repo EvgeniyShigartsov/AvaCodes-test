@@ -59,3 +59,23 @@ ul {
   color: rgba(95, 92, 92, 0.8);
   font-size: 15px;
 }
+
+.slider {
+  position: relative;
+}
+.slider::before {
+  content: 'BBY';
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: -40px;
+  cursor: default;
+}
+.slider::after {
+  content: 'ABY';
+  display: block;
+  position: absolute;
+  top: -3px;
+  right: -40px;
+  cursor: default;
+}

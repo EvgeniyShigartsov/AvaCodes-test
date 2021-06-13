@@ -5,6 +5,7 @@ import { SpeciesList } from './SpeciesList/SpeciesList'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { allCharactersSelector } from '../../../store/characters/selectors'
 import { useActions } from '../../../hooks/useActions'
+import { YearsSlider } from './YearsSlider/YearsSlider'
 
 export const Filter: FC = () => {
   const characters = useTypedSelector(allCharactersSelector)
@@ -15,9 +16,10 @@ export const Filter: FC = () => {
   }, [characters])
   return (
     <Col span={18}>
-      <Row>
+      <Row align="middle">
         <FilmsList />
         <SpeciesList />
+        <YearsSlider />
       </Row>
     </Col>
   )

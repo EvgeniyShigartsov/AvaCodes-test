@@ -7,14 +7,29 @@ export const getCharactersFromLS = (): ICharacter[] => {
   return JSON.parse(characters)
 }
 
-export const checkIsBirthValid = (birthString: string): boolean => {
-  const isBirthDateBBY = birthString.toUpperCase().endsWith('BBY')
-  const isBirthDateABY = birthString.toUpperCase().endsWith('ABY')
+export const getBirthYearsRange = (births: string[]): {BBYmin: number, ABYmax: number} => {
+  if (!births.length) {
+    return {
+      BBYmin: 0,
+      ABYmax: 0,
+    }
+  }
 
-  let isBirthValid = false
+  const BBYDates: number[] = []
+  const ABYDAtes: number[] = []
 
-  if (isBirthDateBBY) isBirthValid = parseFloat(birthString) > 30
-  else if (isBirthDateABY) isBirthValid = parseFloat(birthString) < 5
+  births.forEach((birth) => {
+    const isBirthDateBBY = birth.toUpperCase().endsWith('BBY')
+    const isBirthDateABY = birth.toUpperCase().endsWith('ABY')
 
-  return isBirthValid
+    const date = parseFloat(birth)
+    if (isBirthDateBBY) BBYDates.push(date)
+    else if (isBirthDateABY) ABYDAtes.push(date)
+  })
+
+  const temp = Math.max(...BBYDates)
+  const BBYmin = temp - (temp * 2)
+  const ABYmax = Math.max(...ABYDAtes)
+
+  return { BBYmin, ABYmax }
 }

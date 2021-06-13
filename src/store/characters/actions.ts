@@ -2,7 +2,6 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
 import { Dispatch } from 'redux'
-import { type } from 'os';
 import {
   IPeopleResponseData,
   IResponseCharacter,
@@ -18,7 +17,7 @@ import {
   IFilterOptions,
 } from '../../globalTypes/globalTypes'
 import { DOMAIN, charactersLSKey } from '../../utils/contants'
-import { getCharactersFromLS } from '../../utils/helpers'
+import { getCharactersFromLS, getBirthYearsRange } from '../../utils/helpers'
 import { RootState } from '../index'
 
 const getPeoplesPageData = async (url: string): Promise<IPeopleResponseData> => {
@@ -83,7 +82,7 @@ const getCharacters = async (characters: IResponseCharacter[]): Promise<ICharact
 
     character.name = current.name
     character.url = current.url
-    character.birthYear = current.birth_year
+    character.birthYear = current.birth_year !== 'unknown' ? current.birth_year : `${Math.floor(Math.random() * 30)}ABY`
     character.species = specie
     character.films = movies
     character.starships = starships
@@ -135,20 +134,25 @@ export const setFilterData = (characters: ICharacter[]) => (dispatch: Dispatch<C
   const options = characters.reduce<IFilterOptions>((acc, character) => {
     acc.movies.push(...character.films.map((f) => f.title))
     acc.species.push(character.species)
+    acc.birth_year?.push(character.birthYear)
     return acc
   }, {
     movies: [],
     species: [],
+    birth_year: [],
   })
   const uniqeMovies = Array.from(new Set(options.movies))
   const uniqeSpecies = Array.from(new Set(options.species))
+  const birthYearsRangeStatic = getBirthYearsRange(options.birth_year)
 
+  console.log(birthYearsRangeStatic)
   dispatch(
     {
       type: types.SET_FILTER_OPTIONS,
       payload: {
         allMovies: uniqeMovies,
         allSpecies: uniqeSpecies,
+        birthYearsRangeStatic,
       },
     },
   )

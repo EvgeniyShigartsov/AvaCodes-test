@@ -17,11 +17,14 @@ export interface ICharacter {
 export interface IFilterParams {
   movie: string | null,
   species: string | null,
-  birth_year: string | null
+  birthYearsRange: {
+    BBYmin: number,
+    ABYmax: number,
+  }
 }
 
 export interface IFilterOptions {
   movies: string[],
   species: string[],
-  birth_year?: string[]
+  birth_year: string[]
 }
