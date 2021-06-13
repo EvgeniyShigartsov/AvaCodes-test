@@ -1,34 +1,52 @@
 import React, { FC, useState } from 'react'
+import { ICharacter } from '../../../globalTypes/globalTypes'
 
-export const CharacterItem: FC = () => {
+interface CharacterItemProps {
+  character: ICharacter
+  itemNo: number
+}
+
+export const CharacterItem: FC<CharacterItemProps> = ({ character, itemNo }) => {
   const [showBody, setShowBody] = useState<boolean>(false)
 
+  const {
+    name,
+    species,
+    films,
+    starships,
+  } = character
+
   return (
-    <div className="character-wrapper">
+    <div className="character-wrapper" draggable>
       <div className="character-title" onClick={() => setShowBody((prev) => !prev)}>
-        <span className="character-number">1.</span>
+        <span className="character-number">
+          {itemNo}
+          .
+        </span>
         <span className="character-name">
-          Han Solo
+          {name}
         </span>
       </div>
       {showBody && (
       <div className="character-body">
-        <div className="character-spesies">Species: Human</div>
+        <div className="character-spesies">
+          Species:
+          {' '}
+          {species}
+        </div>
         <div className="character-data">
           <span className="character-data-title">Movies:</span>
           <ul className="character-list-data">
-            <li>Episode IV</li>
-            <li>Episode V</li>
-            <li>Episode VI</li>
-            <li>Episode VII</li>
+            {films.map((film) => <li key={film.episode_id}>{film.title}</li>)}
           </ul>
         </div>
         <div className="character-data">
-          <span className="character-data-title">Spaceships:</span>
-          <ul>
-            <li>Millenium Falcon</li>
-            <li>Imperial shuttle</li>
-          </ul>
+          <span className="character-data-title">Starships:</span>
+          {starships.length ? (
+            <ul>
+              {starships.map((starship) => <li key={starship.url}>{starship.name}</li>)}
+            </ul>
+          ) : <span>No starships found.</span> }
         </div>
         <div />
       </div>

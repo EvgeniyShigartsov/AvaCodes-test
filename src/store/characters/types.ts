@@ -10,6 +10,7 @@ export interface ICharactersState {
 export interface IResponseCharacter {
   name: string,
   birth_year: string,
+  url: string,
   species: string[],
   films: string[],
   starships: string[],
@@ -22,12 +23,6 @@ export interface IPeopleResponseData {
   results: IResponseCharacter[]
 }
 export interface ISpecieResponseData {
-  name: string
-}
-export interface IMovieResponseData {
-  title: string
-}
-export interface IStarshipsResponseData {
   name: string
 }
 

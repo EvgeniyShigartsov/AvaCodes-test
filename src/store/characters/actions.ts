@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
@@ -7,13 +8,11 @@ import {
   IPeopleResponseData,
   IResponseCharacter,
   ISpecieResponseData,
-  IMovieResponseData,
-  IStarshipsResponseData,
   CharactersAction,
   CharactersActionTypes as types,
 } from './types'
 import { DOMAIN } from '../../utils/contants'
-import { ICharacter } from '../../globalTypes/globalTypes'
+import { ICharacter, IFilm, IStarship } from '../../globalTypes/globalTypes'
 import { getCharactersFromLS } from '../../utils/helpers'
 
 const getPeoplesPageData = async (url: string): Promise<IPeopleResponseData> => {
@@ -25,31 +24,40 @@ const getPeoplesPageData = async (url: string): Promise<IPeopleResponseData> => 
 const getCharacterSpecies = async (specieURL: string): Promise<string> => {
   return axios.get<ISpecieResponseData>(specieURL)
     .then((response) => response.data.name)
-    .catch((err) => {
-      return ''
-    })
+    .catch(() => '')
 }
 
-const getCharactersMovies = async (movieURLs: string[]): Promise<string[]> => {
-  const movies: string[] = []
+const getCharactersMovies = async (movieURLs: string[]): Promise<IFilm[]> => {
+  const movies: IFilm[] = []
 
   for (let i = 0; i < movieURLs.length; i++) {
     const currentURL = movieURLs[i]
-    await axios.get<IMovieResponseData>(currentURL)
-      .then((response) => movies.push(response.data.title))
+
+    await axios.get<IFilm>(currentURL)
+      .then((response) => movies.push(
+        {
+          title: response.data.title,
+          episode_id: response.data.episode_id,
+        },
+      ))
       .catch((err) => console.log(err.response))
   }
   return movies
 }
-const getCharactersStarships = async (starshipURLs: string[]): Promise<string[]> => {
-  const starships: string[] = []
+const getCharactersStarships = async (starshipURLs: string[]): Promise<IStarship[]> => {
+  const starships: IStarship[] = []
   if (starshipURLs.length === 0) return starships
 
   for (let i = 0; i < starshipURLs.length; i++) {
     const currentURL = starshipURLs[i]
 
-    await axios.get<IStarshipsResponseData>(currentURL)
-      .then((response) => starships.push(response.data.name))
+    await axios.get<IStarship>(currentURL)
+      .then((response) => starships.push(
+        {
+          name: response.data.name,
+          url: response.data.url,
+        },
+      ))
       .catch((err) => console.log(err.response))
   }
   return starships
@@ -60,8 +68,8 @@ const getCharacters = async (characters: IResponseCharacter[]): Promise<ICharact
 
   for (let i = 0; i < characters.length; i++) {
     const current = characters[i]
+
     if (!current.species.length) continue
-    // if (current.birth_year === 'unknown') continue
     const [specieURL] = current.species
 
     const character = {} as ICharacter
@@ -70,6 +78,7 @@ const getCharacters = async (characters: IResponseCharacter[]): Promise<ICharact
     const starships = await getCharactersStarships(current.starships)
 
     character.name = current.name
+    character.url = current.url
     character.birthYear = current.birth_year
     character.species = specie
     character.films = movies
@@ -81,7 +90,7 @@ const getCharacters = async (characters: IResponseCharacter[]): Promise<ICharact
   return result
 }
 
-export const setCharacters = () => async (dispatch: Dispatch<CharactersAction>):Promise<void> => {
+export const setFullCharactersData = () => async (dispatch: Dispatch<CharactersAction>):Promise<void> => {
   const charactersLS = getCharactersFromLS()
   if (charactersLS.length) {
     dispatch({ type: types.GET_CHARACTERS_SUCCESS, payload: charactersLS })
@@ -105,4 +114,6 @@ export const setCharacters = () => async (dispatch: Dispatch<CharactersAction>):
     }
   }
   console.log(characters)
+
+  dispatch({ type: types.GET_CHARACTERS_SUCCESS, payload: characters })
 }

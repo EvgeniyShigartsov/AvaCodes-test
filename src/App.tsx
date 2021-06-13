@@ -5,9 +5,9 @@ import { CharactersList } from './components/CharactersList/CharactersList'
 import { useActions } from './hooks/useActions'
 
 const App: FC = () => {
-  const { setCharacters } = useActions()
+  const { setFullCharactersData } = useActions()
   useEffect(() => {
-    setCharacters()
+    setFullCharactersData()
   }, [])
 
   return (
