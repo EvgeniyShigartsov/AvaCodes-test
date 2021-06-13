@@ -166,18 +166,18 @@ export const filterCharacters = (incomingParam: [FilterOptionType, string | null
     [paramToUpdate]: value,
   }
 
-  console.log(filterParams)
-  console.log(updatedParams)
-  // const filtered = characters
-  //   .filter((char) => {
-  //     if (movie === null) return true
-  //     return char.films.some((f) => f.title === movie)
-  //   })
-  //   .filter((char) => {
-  //     if (species === null) return true
-  //     return char.species === species
-  //   })
+  const { movie, species } = updatedParams
 
-  // dispatch({ type: types.SET_FILTERED_CHARACTERS, payload: filtered })
+  const filtered = characters
+    .filter((char) => {
+      if (movie === null) return true
+      return char.films.some((f) => f.title === movie)
+    })
+    .filter((char) => {
+      if (species === null) return true
+      return char.species === species
+    })
+
+  dispatch({ type: types.SET_FILTERED_CHARACTERS, payload: filtered })
   dispatch({ type: types.UPDATE_FILTER_PARAMS, payload: updatedParams })
 }

@@ -3,7 +3,6 @@ import { Select, Col } from 'antd'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { allSpeciesSelector } from '../../../../store/characters/selectors'
 import { useActions } from '../../../../hooks/useActions'
-// import { filterOptionsKeys } from '../../../../utils/contants'
 
 const { Option } = Select
 

@@ -16,7 +16,7 @@ ul {
 .ant-layout-content {
   color: #fff;
   background-color: whitesmoke;
-  margin-bottom: 100px;
+  padding-bottom: 100px;
 }
 
 .character-wrapper {
@@ -53,4 +53,9 @@ ul {
 }
 .select-dropdown {
   width: 250px;
+}
+.empty {
+  margin: 15px 0;
+  color: rgba(95, 92, 92, 0.8);
+  font-size: 15px;
 }
