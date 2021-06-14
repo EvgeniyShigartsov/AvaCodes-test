@@ -5,6 +5,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { ICharacter } from '../../globalTypes/globalTypes'
 import { lastDraggedItemSelector, favoritesListSelector } from '../../store/favorites/selectors'
 import { useActions } from '../../hooks/useActions'
+import { Empty } from '../Empty/Empty'
 
 const { Content } = Layout
 export const FavoritesList: FC = () => {
@@ -25,6 +26,16 @@ export const FavoritesList: FC = () => {
     deleteCharacter(character.url)
   }
 
+  const list = favorites.map((character, index) => (
+    <CharacterItem
+      key={character.url}
+      character={character}
+      itemNo={index + 1}
+      deleteFromFavoritesBtn
+      removeFromFaviritesHandler={onDeleteBtnHandler}
+    />
+  ))
+
   return (
     <Content>
       <Col span={12} push={2}>
@@ -34,15 +45,7 @@ export const FavoritesList: FC = () => {
           onDrop={dropHandler}
           onDragOver={onDragOverPrevented}
         >
-          {favorites.map((character, index) => (
-            <CharacterItem
-              key={character.url}
-              character={character}
-              itemNo={index + 1}
-              deleteFromFavoritesBtn
-              removeFromFaviritesHandler={onDeleteBtnHandler}
-            />
-          ))}
+          {favorites.length ? list : <Empty type="FavoritesList" />}
         </div>
       </Col>
     </Content>
