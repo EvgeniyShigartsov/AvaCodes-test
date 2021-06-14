@@ -89,7 +89,7 @@ ul {
 }
 
 .favorites-list {
-  min-height: '200px';
+  min-height: 200px;
   margin-bottom: 200px;
-  border: '1px solid lightskyblue'
+  border: 1px solid lightskyblue;
 }

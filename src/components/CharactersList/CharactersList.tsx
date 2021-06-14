@@ -6,17 +6,19 @@ import { Loader } from '../Loader/Loader'
 import { filteredCharactersSelector, isLoadingSelector } from '../../store/characters/selectors'
 import { Empty } from '../Empty/Empty'
 import { ICharacter } from '../../globalTypes/globalTypes'
+import { useActions } from '../../hooks/useActions'
 
 const { Content } = Layout
 export const CharactersList: FC = () => {
   const characters = useTypedSelector(filteredCharactersSelector)
   const isLoading = useTypedSelector(isLoadingSelector)
+  const { setLastDraggedItem } = useActions()
 
   if (isLoading) return <Loader />
   if (!characters.length) return <Empty />
 
   const onDragStartHandler = (character: ICharacter) => {
-    console.log(character)
+    setLastDraggedItem(character)
   }
 
   return (

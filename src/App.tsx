@@ -6,9 +6,10 @@ import { useActions } from './hooks/useActions'
 import { FavoritesList } from './components/FavoritesList/FavoritesList'
 
 const App: FC = () => {
-  const { setFullCharactersData } = useActions()
+  const { setFullCharactersData, setFavoritesList } = useActions()
   useEffect(() => {
     setFullCharactersData()
+    setFavoritesList()
   }, [])
 
   return (

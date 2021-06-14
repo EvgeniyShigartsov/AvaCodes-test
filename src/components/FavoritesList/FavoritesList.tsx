@@ -1,24 +1,40 @@
-import React, { FC } from 'react'
+import React, { FC, DragEvent } from 'react'
 import { Layout, Col } from 'antd'
 import { CharacterItem } from '../CharactersList/CharacterItem/CharacterItem'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { ICharacter } from '../../globalTypes/globalTypes'
+import { lastDraggedItemSelector, favoritesListSelector } from '../../store/favorites/selectors'
+import { useActions } from '../../hooks/useActions'
 
 const { Content } = Layout
 export const FavoritesList: FC = () => {
-  // const dropHandler = (e: React.DragEvent<HTMLDivElement>): void => {
-  //   console.log(e)
-  // }
+  const lastDraggedItem = useTypedSelector(lastDraggedItemSelector)
+  const favorites = useTypedSelector(favoritesListSelector)
+  const { addNewCharacter, deleteCharacter } = useActions()
+
+  const dropHandler = (e: DragEvent<HTMLDivElement>): void => {
+    e.preventDefault()
+    addNewCharacter(lastDraggedItem)
+  }
+
+  const onDragOverPrevented = (e: DragEvent<HTMLDivElement>): void => {
+    e.preventDefault()
+  }
+
   const onDeleteBtnHandler = (character: ICharacter): void => {
-    console.log(character)
+    deleteCharacter(character.url)
   }
 
   return (
     <Content>
-      <Col span={12} push={2} onDrop={() => null}>
+      <Col span={12} push={2}>
         <h2>Favorites Characters</h2>
-        <div className="favaorites-list" style={{ minHeight: '200px', border: '1px solid lightskyblue' }}>
-          {/* {characters.map((character, index) => (
+        <div
+          className="favorites-list"
+          onDrop={dropHandler}
+          onDragOver={onDragOverPrevented}
+        >
+          {favorites.map((character, index) => (
             <CharacterItem
               key={character.url}
               character={character}
@@ -26,7 +42,7 @@ export const FavoritesList: FC = () => {
               deleteFromFavoritesBtn
               removeFromFaviritesHandler={onDeleteBtnHandler}
             />
-          ))} */}
+          ))}
         </div>
       </Col>
     </Content>
