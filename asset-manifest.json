@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/AvaCodes-test/static/css/main.e4ecab93.chunk.css",
+    "main.js": "/AvaCodes-test/static/js/main.28be0b84.chunk.js",
+    "main.js.map": "/AvaCodes-test/static/js/main.28be0b84.chunk.js.map",
+    "runtime-main.js": "/AvaCodes-test/static/js/runtime-main.a3320055.js",
+    "runtime-main.js.map": "/AvaCodes-test/static/js/runtime-main.a3320055.js.map",
+    "static/css/2.8c5372c1.chunk.css": "/AvaCodes-test/static/css/2.8c5372c1.chunk.css",
+    "static/js/2.1247fd4e.chunk.js": "/AvaCodes-test/static/js/2.1247fd4e.chunk.js",
+    "static/js/2.1247fd4e.chunk.js.map": "/AvaCodes-test/static/js/2.1247fd4e.chunk.js.map",
+    "index.html": "/AvaCodes-test/index.html",
+    "static/css/2.8c5372c1.chunk.css.map": "/AvaCodes-test/static/css/2.8c5372c1.chunk.css.map",
+    "static/css/main.e4ecab93.chunk.css.map": "/AvaCodes-test/static/css/main.e4ecab93.chunk.css.map",
+    "static/js/2.1247fd4e.chunk.js.LICENSE.txt": "/AvaCodes-test/static/js/2.1247fd4e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a3320055.js",
+    "static/css/2.8c5372c1.chunk.css",
+    "static/js/2.1247fd4e.chunk.js",
+    "static/css/main.e4ecab93.chunk.css",
+    "static/js/main.28be0b84.chunk.js"
+  ]
+}
