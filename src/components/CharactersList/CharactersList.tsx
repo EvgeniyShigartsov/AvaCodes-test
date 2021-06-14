@@ -16,9 +16,14 @@ export const CharactersList: FC = () => {
 
   return (
     <Content>
-      <Col span={6} push={2}>
+      <Col span={12} push={2}>
         {characters.map((character, index) => (
-          <CharacterItem key={character.url} character={character} itemNo={index + 1} />
+          <CharacterItem
+            key={character.url}
+            character={character}
+            itemNo={index + 1}
+            draggable
+          />
         ))}
       </Col>
     </Content>

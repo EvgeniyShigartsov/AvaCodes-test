@@ -22,7 +22,6 @@ export interface IFilterParams {
     max: number,
   }
 }
-
 export interface IFilterOptions {
   movies: string[],
   species: string[],

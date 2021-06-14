@@ -3,6 +3,7 @@ import { Layout, Row } from 'antd'
 import { Header } from './components/Header/Header'
 import { CharactersList } from './components/CharactersList/CharactersList'
 import { useActions } from './hooks/useActions'
+import { FavoritesList } from './components/FavoritesList/FavoritesList'
 
 const App: FC = () => {
   const { setFullCharactersData } = useActions()
@@ -16,6 +17,7 @@ const App: FC = () => {
       <Layout>
         <Row>
           <CharactersList />
+          <FavoritesList />
         </Row>
       </Layout>
     </Layout>
