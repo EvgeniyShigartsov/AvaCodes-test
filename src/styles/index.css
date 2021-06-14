@@ -87,3 +87,9 @@ ul {
   right: -40px;
   cursor: default;
 }
+
+.favorites-list {
+  min-height: '200px';
+  margin-bottom: 200px;
+  border: '1px solid lightskyblue'
+}

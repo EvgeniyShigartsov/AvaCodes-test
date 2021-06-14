@@ -1,9 +1,16 @@
-import { charactersLSKey } from './contants'
+import { charactersLSKey, favoritesLSKey } from './contants'
 import { ICharacter } from '../globalTypes/globalTypes'
 
 export const getCharactersFromLS = (): ICharacter[] => {
   const characters = localStorage.getItem(charactersLSKey)
   if (!characters) return []
+  return JSON.parse(characters)
+}
+
+export const getFavoritesFromLS = (): ICharacter[] => {
+  const characters = localStorage.getItem(favoritesLSKey)
+  if (!characters) return []
+
   return JSON.parse(characters)
 }
 
