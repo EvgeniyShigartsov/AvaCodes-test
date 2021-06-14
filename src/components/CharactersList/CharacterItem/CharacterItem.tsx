@@ -1,16 +1,27 @@
-import React, { FC, useState, DragEvent } from 'react'
+import React, { FC, useState } from 'react'
+import { Button } from 'antd'
 import { ICharacter } from '../../../globalTypes/globalTypes'
+import { deleteFromFavoritesIcon } from '../../../styles/icons'
 
 interface CharacterItemProps {
   character: ICharacter
   itemNo: number,
   draggable?: boolean
-  // onDrag?: (e: React.DragEvent<HTMLDivElement>, character: ICharacter) => void
+  onDragStart?: ((character: ICharacter) => void) | null
+  removeFromFaviritesHandler?: ((character: ICharacter) => void) | null
+  deleteFromFavoritesBtn?: boolean
 }
 
-export const CharacterItem: FC<CharacterItemProps> = ({
-  character, itemNo, draggable = false,
-}) => {
+export const CharacterItem: FC<CharacterItemProps> = (
+  {
+    character,
+    onDragStart,
+    removeFromFaviritesHandler,
+    itemNo,
+    draggable = false,
+    deleteFromFavoritesBtn = false,
+  },
+) => {
   const [showBody, setShowBody] = useState<boolean>(false)
 
   const {
@@ -21,18 +32,22 @@ export const CharacterItem: FC<CharacterItemProps> = ({
     birthYear,
   } = character
 
-  const onDragHandler = (e: DragEvent<HTMLDivElement>, character: ICharacter): void => {
-    // console.log(e)
+  const onDragStartHandler = (): void => {
+    if (typeof onDragStart === 'function') {
+      onDragStart(character)
+    }
   }
-  const onDragStart = (e: DragEvent<HTMLDivElement>, character: ICharacter) => {
-    console.log(e)
+  const onDeleteFromFavoritesHandler = () => {
+    if (typeof removeFromFaviritesHandler === 'function') {
+      removeFromFaviritesHandler(character)
+    }
   }
+
   return (
     <div
       className="character-wrapper"
       draggable={draggable}
-      onDragStart={(e) => onDragStart(e, character)}
-      // onDrag={(e) => onDragHandler(e, character)}
+      onDragStart={onDragStartHandler}
     >
       <div className="character-title" onClick={() => setShowBody((prev) => !prev)}>
         <span className="character-number">
@@ -45,6 +60,15 @@ export const CharacterItem: FC<CharacterItemProps> = ({
       </div>
       {showBody && (
       <div className="character-body">
+        {deleteFromFavoritesBtn && (
+          <div className="delete-btn">
+            <Button
+              size="small"
+              icon={deleteFromFavoritesIcon}
+              onClick={onDeleteFromFavoritesHandler}
+            />
+          </div>
+        )}
         <div className="character-spesies">
           Species:
           {' '}
